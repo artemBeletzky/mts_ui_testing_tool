@@ -1,4 +1,4 @@
-from selenium import webdriver
+from selenium.webdriver import Remote
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 
 
 class MCounter:
-    def __init__(self, path: str, waiting_time=2, browser=webdriver.Chrome()):
+    def __init__(self, path: str, browser: Remote, waiting_time=2):
         self.browser = browser
         self.m_counter = None
 
@@ -21,12 +21,12 @@ class MCounter:
         except TimeoutException:
             raise TimeoutException(f"\nПосле {waiting_time} секунд ожидания не удалось найти элемент 'm-counter'")
 
-    def __find_counter(self, data_test_id: str) -> WebElement:
-        try:
-            tab = self.m_tabs.find_element(By.CSS_SELECTOR, f"[data-test-id={data_test_id}]")
-        except NoSuchElementException:
-            raise NoSuchElementException(f"\nНе удалось найти m-counter с data_test_id '{data_test_id}'")
-        return tab
+    # def __find_counter(self, data_test_id: str) -> WebElement:
+    #     try:
+    #         tab = self.m_tabs.find_element(By.CSS_SELECTOR, f"[data-test-id={data_test_id}]")
+    #     except NoSuchElementException:
+    #         raise NoSuchElementException(f"\nНе удалось найти m-counter с data_test_id '{data_test_id}'")
+    #     return tab
 
     def check_if_current_count_is_equal_to(self, count_to_compare: int) -> bool:
         current_count = self.m_counter.find_element(By.CSS_SELECTOR, "p").text
